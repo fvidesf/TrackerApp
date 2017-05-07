@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "270478616006",
+    "firebase_url": "https://trackermelanioso.firebaseio.com",
+    "project_id": "trackermelanioso",
+    "storage_bucket": "trackermelanioso.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:270478616006:android:ac28f9aeced6009a",
+        "android_client_info": {
+          "package_name": "co.edu.uninorte.trackerapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "270478616006-rihd7kdujnenobcc6rf60r3cqk6ci9tr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "co.edu.uninorte.trackerapp",
+            "certificate_hash": "c9af3e6dec6256deb34764ea7c0aa7f9adccfff5"
+          }
+        },
+        {
+          "client_id": "270478616006-q4kjs3nr7qpl3a5etleomt9ao7bpdvlr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDSH6WOw3SV_jeimR0QnKguCIqr4K7kRc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "270478616006-q4kjs3nr7qpl3a5etleomt9ao7bpdvlr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
