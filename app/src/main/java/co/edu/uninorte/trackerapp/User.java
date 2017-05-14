@@ -7,25 +7,24 @@ import java.util.ArrayList;
  */
 
 public class User {
-    String Name;
+    String UID;
     ArrayList<Position> Route;
 
-    public User(String name, String roleValue, ArrayList<Position> route) {
-        Name = name;
+    public User(String name, ArrayList<Position> route) {
+        UID = name;
         Route = route;
     }
-
 
     public User() {
 
     }
 
-    public String getName() {
-        return Name;
+    public String getUID() {
+        return UID;
     }
 
-    public void setName(String name) {
-        Name = name;
+    public void setUID(String UID) {
+        this.UID = UID;
     }
 
     public ArrayList<Position> getRoute() {
@@ -35,5 +34,6 @@ public class User {
     public void setRoute(ArrayList<Position> route) {
         Route = route;
     }
+
 
 }

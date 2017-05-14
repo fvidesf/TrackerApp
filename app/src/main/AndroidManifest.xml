@@ -24,6 +24,10 @@
 
 
         </activity>
+
+        <service
+            android:name=".TrackingService"
+            android:exported="false" />
     </application>
 
 </manifest>

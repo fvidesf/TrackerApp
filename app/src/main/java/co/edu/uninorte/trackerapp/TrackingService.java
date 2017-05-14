@@ -28,6 +28,8 @@ import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+
 /**
  * Created by fdjvf on 5/14/2017.
  */
@@ -58,8 +60,8 @@ public class TrackingService extends Service implements ConnectionCallbacks, OnC
      * settings to determine if the device has optimal location settings.
      */
     protected LocationSettingsRequest mLocationSettingsRequest;
+    User mySeller;
     private DatabaseReference RouteCollection;
-
 
     @Nullable
     @Override
@@ -72,8 +74,12 @@ public class TrackingService extends Service implements ConnectionCallbacks, OnC
         super.onCreate();
         buildGoogleApiClient();
         createLocationRequest();
-        RouteCollection = FirebaseDatabase.getInstance().getReference("Rutas");
+        RouteCollection = FirebaseDatabase.getInstance().getReference("Vendedores");
         buildLocationSettingsRequest();
+        mySeller = new User();
+        mySeller.UID = "Fabio";
+        mySeller.setRoute(new ArrayList<Position>());
+        mGoogleApiClient.connect();
     }
 
     /**
@@ -99,6 +105,12 @@ public class TrackingService extends Service implements ConnectionCallbacks, OnC
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
     }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        RouteCollection.child(mySeller.getUID()).push().setValue(new Position(location.getLatitude(), location.getLongitude()));
+    }
+
 
     /**
      * Uses a {@link com.google.android.gms.location.LocationSettingsRequest.Builder} to build
@@ -184,22 +196,52 @@ public class TrackingService extends Service implements ConnectionCallbacks, OnC
 
     @Override
     public void onConnectionSuspended(int i) {
-
+        Log.i(TAG, "Connection suspended");
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
+        Log.i(TAG, "Connection failed: ConnectionResult.getErrorCode() = " + connectionResult.getErrorCode());
     }
 
-    @Override
-    public void onLocationChanged(Location location) {
-
-    }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        return super.onStartCommand(intent, flags, startId);
+
+
+        return START_STICKY;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mGoogleApiClient.disconnect();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+    }
+
+    protected void stopLocationUpdates() {
+
+        // It is a good practice to remove location requests when the activity is in a paused or
+
+        // stopped state. Doing so helps battery performance and is especially
+
+        // recommended in applications that request frequent location updates.
+
+        LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this
+        ).setResultCallback(new ResultCallback<Status>() {
+
+            @Override
+
+            public void onResult(Status status) {
+
+
+            }
+
+        });
 
     }
 }
