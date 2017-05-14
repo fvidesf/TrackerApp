@@ -170,19 +170,14 @@ public class TrackingService extends Service implements ConnectionCallbacks, OnC
                         PendingIntent myIntent = status.getResolution();
                         mGoogleApiClient.getContext().startActivity(new Intent(mGoogleApiClient.getContext(), BeginTrackingActivity.class)
                                 .putExtra("Resolution", myIntent).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-
-
                         break;
 
                     case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
 
                         String errorMessage = "Location settings are inadequate, and cannot be " +
                                 "fixed here. Fix in Settings.";
-
                         Log.e(TAG, errorMessage);
-
                         Toast.makeText(TrackingService.this, errorMessage, Toast.LENGTH_LONG).show();
-
 
                 }
 

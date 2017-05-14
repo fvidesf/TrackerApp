@@ -70,7 +70,7 @@ public class BeginTrackingActivity extends AppCompatActivity {
                     case Activity.RESULT_OK:
 
                         Log.i(TrackingService.TAG, "User agreed to make required location settings changes.");
-
+                        finish();
                         break;
 
                     case Activity.RESULT_CANCELED:
@@ -96,6 +96,7 @@ public class BeginTrackingActivity extends AppCompatActivity {
     public void BeginLocationTrackingOnClick(View view) {
 
         Intent service = new Intent(this, TrackingService.class);
+
         startService(service);
 
 

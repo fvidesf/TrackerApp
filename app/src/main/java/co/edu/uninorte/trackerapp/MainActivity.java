@@ -3,6 +3,7 @@ package co.edu.uninorte.trackerapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
@@ -41,7 +42,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void SelectedIntentForUsers() {
-        if (auth.getCurrentUser().getUid() == ADMIN_MELANIS || auth.getCurrentUser().getUid() == ADMIN_FABIO) {
+
+        String UID = auth.getCurrentUser().getUid();
+
+        if (UID.equals(ADMIN_MELANIS) || UID.equals(ADMIN_FABIO)) {
+            Log.d("Adming Log", "Inicio sesion admin");
             //Iniciar Intent de Administrador
         } else {
             //Iniciar Intent de Vendedor
