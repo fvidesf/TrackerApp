@@ -15,26 +15,39 @@ import java.util.Arrays;
 public class MainActivity extends AppCompatActivity {
 
     private static final int RC_SIGN_IN = 123;
+    private static final String ADMIN_MELANIS = "YQgiBDUx7qOFJHWkmR5WcvnT1s03";
+    private static final String ADMIN_FABIO = "9snCyhJbWuhv7dlw9C4hhuwj2XE2";
+    FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FirebaseAuth auth = FirebaseAuth.getInstance();
+        auth = FirebaseAuth.getInstance();
         if (auth.getCurrentUser() != null) {
-            // already signed in
-            Intent myIntent = new Intent(this, BeginTrackingActivity.class);
 
-            startActivity(myIntent);
+            SelectedIntentForUsers();
+
         } else {
             startActivityForResult(
                     AuthUI.getInstance()
                             .createSignInIntentBuilder().
-                            setProviders(Arrays.asList(new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build()))
+                            setProviders(Arrays.asList(new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build(),
+                                    new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build()))
                             .setTheme(R.style.GreenTheme)
                             .build(), RC_SIGN_IN);
         }
 
 
+    }
+
+    public void SelectedIntentForUsers() {
+        if (auth.getCurrentUser().getUid() == ADMIN_MELANIS || auth.getCurrentUser().getUid() == ADMIN_FABIO) {
+            //Iniciar Intent de Administrador
+        } else {
+            //Iniciar Intent de Vendedor
+            Intent myIntent = new Intent(this, BeginTrackingActivity.class);
+            startActivity(myIntent);
+        }
     }
 
     @Override
@@ -43,8 +56,7 @@ public class MainActivity extends AppCompatActivity {
         IdpResponse response = null;
         if (requestCode == ResultCodes.OK || requestCode == RC_SIGN_IN) {
             response = IdpResponse.fromResultIntent(data);
-            Intent myIntent = new Intent(this, BeginTrackingActivity.class);
-            startActivity(myIntent);
+            SelectedIntentForUsers();
             finish();
             return;
 
