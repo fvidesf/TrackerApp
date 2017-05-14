@@ -42,7 +42,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void SelectedIntentForUsers() {
         if (auth.getCurrentUser().getUid() == ADMIN_MELANIS || auth.getCurrentUser().getUid() == ADMIN_FABIO) {
-            //Iniciar Intent de Administrador
+            Intent  myIntent = new Intent(this, MainAdminActivity.class);
+            startActivity(myIntent);
         } else {
             //Iniciar Intent de Vendedor
             Intent myIntent = new Intent(this, BeginTrackingActivity.class);
