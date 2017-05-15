@@ -1,15 +1,12 @@
-package co.edu.uninorte.trackerapp.AdminApp;
+package co.edu.uninorte.trackerapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.firebase.ui.auth.AuthUI;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -18,24 +15,18 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
-import co.edu.uninorte.trackerapp.MainActivity;
-import co.edu.uninorte.trackerapp.Model.User;
-import co.edu.uninorte.trackerapp.R;
-
 public class MainAdminActivity extends AppCompatActivity {
     ListView l;
     int ie = 1;
     ListAdapter ladapter;
     ArrayList<User> myUsers = new ArrayList<>();
-    private DatabaseReference mDatabase;
     private DatabaseReference UserCollection;
-
+    private String usuario="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_admin);
         l = (ListView) findViewById(R.id.listView);
-        mDatabase = FirebaseDatabase.getInstance().getReference();
         UserCollection = FirebaseDatabase.getInstance().getReference("Vendedores");
         ladapter = new ListAdapter(myUsers, this);
         UserCollection.addChildEventListener(new ChildEventListener() {
@@ -69,34 +60,37 @@ public class MainAdminActivity extends AppCompatActivity {
             }
         });
 
+        l.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                usuario=myUsers.get(position).getUID();
+                Intent i = new Intent(getApplicationContext(), MapsActivity.class);
+                i.putExtra("usuario",usuario);
+                startActivity(i);
 
-    }
-
-    public void onClickGOMAP(View view) {
-        Intent i = new Intent(this, MapsActivity.class);
-        startActivity(i);
+            }
+        });
     }
 
 
     public void LogOut(View view) {
-  /*      ArrayList<Position> temp = new ArrayList<>();
+        ArrayList<Position> temp = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             temp.add(new Position(2D, 2D));
         }
         UserCollection.child("Nombre " + ie).setValue(new User("Nombre " + ie, temp));
         ie++;
-*/
-        AuthUI.getInstance()
+     /*   AuthUI.getInstance()
                 .signOut(this)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
                     public void onComplete(@NonNull Task<Void> task) {
+                        // user is now signed out
                         startActivity(new Intent(MainAdminActivity.this, MainActivity.class));
                         finish();
                     }
                 });
 
+    }*/
     }
-
 }
