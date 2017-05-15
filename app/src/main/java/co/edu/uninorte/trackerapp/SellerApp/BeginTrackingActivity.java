@@ -51,9 +51,8 @@ public class BeginTrackingActivity extends AppCompatActivity {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         Vendedores = FirebaseDatabase.getInstance().getReference("Vendedores");
         myUser = new User(currentUser.getDisplayName(), currentUser.getPhotoUrl());
-
         Vendedores.child(currentUser.getUid()).setValue(myUser);
-
+        beginTrackingBinding.UserName.setText(myUser.Name);
     }
 
     /**

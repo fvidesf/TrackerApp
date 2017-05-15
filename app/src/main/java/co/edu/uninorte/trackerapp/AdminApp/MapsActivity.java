@@ -8,9 +8,9 @@ import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.icu.util.TimeZone;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.FragmentActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TextView;
@@ -33,9 +33,11 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 
+import co.edu.uninorte.trackerapp.Model.Position;
+import co.edu.uninorte.trackerapp.Model.User;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, View.OnClickListener, DatePickerDialog.OnDateSetListener {
 
-    private GoogleMap mMap;
     public static TextView fechaInicialEd;
     public static TextView fechaFinalEd;
     public static TextView horaInicialEd;
@@ -44,6 +46,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public static String fechaF;
     public static String horaI;
     public static String horaF;
+    User muser;
+    ArrayList<ArrayList<Position>> rutas;
+    private GoogleMap mMap;
     private int _day;
     private int _month;
     private int _year;
@@ -55,8 +60,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private String TAG;
     private String usuario;
     private DatabaseReference myUserCollection;
-    User muser;
-    ArrayList<ArrayList<Position>> rutas;
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +79,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 muser= (User) dataSnapshot.child(usuario).getValue();
-                rutas.add(muser.getRoute());
+                rutas.add(muser.Route);
                 //la ruta siempre está en la posición 0 del arraylist Rutas
             }
 
@@ -157,13 +161,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
 
-       _day=calendar.DAY_OF_MONTH;
-       _month=calendar.MONTH;
-       _year=calendar.YEAR;
+        _day = Calendar.DAY_OF_MONTH;
+        _month = Calendar.MONTH;
+        _year = Calendar.YEAR;
         fechaI = _day+" "+_month+" "+_year+" ";
         fechaF =fechaI;
-        horaI=calendar.HOUR_OF_DAY-1+":"+calendar.MINUTE;
-        horaF=calendar.HOUR_OF_DAY+":"+calendar.MINUTE;
+        horaI = Calendar.HOUR_OF_DAY - 1 + ":" + Calendar.MINUTE;
+        horaF = Calendar.HOUR_OF_DAY + ":" + Calendar.MINUTE;
 
         fechaInicialEd.setText( _day+"/"+_month+"/"+_year+"");
         fechaFinalEd.setText( _day+"/"+_month+"/"+_year+"");
