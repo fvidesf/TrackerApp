@@ -1,7 +1,7 @@
-package co.edu.uninorte.trackerapp;
+package co.edu.uninorte.trackerapp.AdminApp;
 
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -9,6 +9,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import co.edu.uninorte.trackerapp.R;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 

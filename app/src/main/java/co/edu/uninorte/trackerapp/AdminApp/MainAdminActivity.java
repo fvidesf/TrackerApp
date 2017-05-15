@@ -1,11 +1,15 @@
-package co.edu.uninorte.trackerapp;
+package co.edu.uninorte.trackerapp.AdminApp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ListView;
 
+import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -13,6 +17,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+
+import co.edu.uninorte.trackerapp.MainActivity;
+import co.edu.uninorte.trackerapp.Model.User;
+import co.edu.uninorte.trackerapp.R;
 
 public class MainAdminActivity extends AppCompatActivity {
     ListView l;
@@ -72,25 +80,23 @@ public class MainAdminActivity extends AppCompatActivity {
 
 
     public void LogOut(View view) {
-        ArrayList<Position> temp = new ArrayList<>();
+  /*      ArrayList<Position> temp = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             temp.add(new Position(2D, 2D));
         }
         UserCollection.child("Nombre " + ie).setValue(new User("Nombre " + ie, temp));
         ie++;
-
-
-
-     /*   AuthUI.getInstance()
+*/
+        AuthUI.getInstance()
                 .signOut(this)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        // user is now signed out
                         startActivity(new Intent(MainAdminActivity.this, MainActivity.class));
                         finish();
                     }
                 });
 
-    }*/
     }
+
 }

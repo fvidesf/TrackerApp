@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
@@ -12,6 +13,9 @@ import com.firebase.ui.auth.ResultCodes;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Arrays;
+
+import co.edu.uninorte.trackerapp.AdminApp.MainAdminActivity;
+import co.edu.uninorte.trackerapp.SellerApp.BeginTrackingActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,9 +29,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         auth = FirebaseAuth.getInstance();
         if (auth.getCurrentUser() != null) {
-
             SelectedIntentForUsers();
-
         } else {
             startActivityForResult(
                     AuthUI.getInstance()
@@ -37,10 +39,7 @@ public class MainActivity extends AppCompatActivity {
                             .setTheme(R.style.GreenTheme)
                             .build(), RC_SIGN_IN);
         }
-
-
     }
-
     public void SelectedIntentForUsers() {
 
         String UID = auth.getCurrentUser().getUid();
@@ -52,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
             //Iniciar Intent de Administrador
         } else {
             //Iniciar Intent de Vendedor
+            Log.d("Adming Log", "Inicio sesion Vendedor");
             Intent myIntent = new Intent(this, BeginTrackingActivity.class);
             startActivity(myIntent);
         }
@@ -62,34 +62,30 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        IdpResponse response = null;
+        IdpResponse response = IdpResponse.fromResultIntent(data);
         if (requestCode == ResultCodes.OK || requestCode == RC_SIGN_IN) {
-            response = IdpResponse.fromResultIntent(data);
             SelectedIntentForUsers();
             finish();
-            return;
 
         } else {
             // Sign in failed
             if (response == null) {
                 // User pressed back button
-                //       showSnackbar(R.string.sign_in_cancelled);
+                Toast.makeText(this, "El inicio de sesión ha sido cancelado", Toast.LENGTH_SHORT).show();
+
                 return;
             }
 
             if (response.getErrorCode() == ErrorCodes.NO_NETWORK) {
-                //     showSnackbar(R.string.no_internet_connection);
+                Toast.makeText(this, "No hay conexión a internet", Toast.LENGTH_SHORT).show();
                 return;
             }
 
             if (response.getErrorCode() == ErrorCodes.UNKNOWN_ERROR) {
-                //     showSnackbar(R.string.unknown_error);
+                Toast.makeText(this, "Error desconocido", Toast.LENGTH_SHORT).show();
                 return;
             }
         }
-
-        //   showSnackbar(R.string.unknown_sign_in_response);
-
 
     }
 }

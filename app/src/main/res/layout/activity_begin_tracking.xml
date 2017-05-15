@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="co.edu.uninorte.trackerapp.BeginTrackingActivity">
+    tools:context="co.edu.uninorte.trackerapp.SellerApp.BeginTrackingActivity">
 
     <data class="BeginTrackingBinding">
 
@@ -29,7 +29,7 @@
 
         <Button
             android:id="@+id/BeginTrack"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
@@ -42,32 +42,35 @@
 
         <Button
             android:id="@+id/EndTrack"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:layout_marginTop="41dp"
+            android:layout_marginTop="46dp"
             android:onClick="EndLocationTrackingOnClick"
 
             android:text="Finalizar Tracking"
+            app:layout_constraintHorizontal_bias="0.502"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/BeginTrack" />
 
         <Button
             android:id="@+id/button5"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
             android:onClick="LogOut"
-            android:text="Log Out"
+            android:text="Salir de la Sesion"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/EndTrack" />
+            app:layout_constraintTop_toBottomOf="@+id/EndTrack"
+            app:layout_constraintVertical_bias="0.219" />
 
     </android.support.constraint.ConstraintLayout>
 

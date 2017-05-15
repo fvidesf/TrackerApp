@@ -1,4 +1,4 @@
-package co.edu.uninorte.trackerapp;
+package co.edu.uninorte.trackerapp.Model;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 
