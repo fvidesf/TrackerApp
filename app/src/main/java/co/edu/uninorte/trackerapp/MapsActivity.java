@@ -53,10 +53,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private SimpleDateFormat sdf;
     private Date temp;
     private String TAG;
-    private String usuario;
+    private String usuarioid;
     private DatabaseReference myUserCollection;
     User muser;
-    ArrayList<ArrayList<Position>> rutas;
+    public ArrayList<Date> fechas;
+    private LatLng lastPos;
+    ArrayList<User> usuarios = new ArrayList<>();
+    ArrayList<Position> rutas = new ArrayList<>();
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,18 +71,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
         sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         Intent i = getIntent();
-        usuario=i.getStringExtra("usuario");
-
+        usuarioid=i.getStringExtra("usuario");
+        hallarUsuario();
         myUserCollection = FirebaseDatabase.getInstance().getReference("Vendedores");
         myUserCollection.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                muser= (User) dataSnapshot.child(usuario).getValue();
-                rutas.add(muser.getRoute());
-                //la ruta siempre está en la posición 0 del arraylist Rutas
+                usuarios.add(dataSnapshot.getValue(User.class));
             }
-
-
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
@@ -100,7 +99,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             }
         });
-
 
 
         fechaInicialEd = (TextView) findViewById(R.id.fechaInicial);
@@ -165,8 +163,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         horaI=calendar.HOUR_OF_DAY-1+":"+calendar.MINUTE;
         horaF=calendar.HOUR_OF_DAY+":"+calendar.MINUTE;
 
-        fechaInicialEd.setText( _day+"/"+_month+"/"+_year+"");
-        fechaFinalEd.setText( _day+"/"+_month+"/"+_year+"");
+        fechaInicialEd.setText(_day+"/"+_month+"/"+_year+"");
+        fechaFinalEd.setText(_day+"/"+_month+"/"+_year+"");
         horaInicialEd.setText(horaI);
         horaFinalEd.setText(horaF);
 
@@ -181,6 +179,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
+    public void hallarUsuario(){
+
+        for (int i =0; i< usuarios.size();i++){
+            if(usuarios.get(i).getUID()==usuarioid){
+                muser= usuarios.get(i);
+                rutas = muser.getRoute();
+            }
+        }
+    }
+
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -193,13 +201,32 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        mMap.addMarker(new MarkerOptions().position(lastPos).title("Ultima posición"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(lastPos));
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void lastPosition(){
+        int j=0;
+        Date date = null;
+        try {
+            date = sdf.parse("2000 1 1 00:00");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+        for (int i=0;i<rutas.size();i++){
+            fechas.add(rutas.get(i).RegisterDate);
+            if(rutas.get(i).RegisterDate.after(date)){
+                date= rutas.get(i).RegisterDate;
+                j=i;
+
+            }
+        }
+        lastPos = new LatLng(rutas.get(j).Latitude,rutas.get(j).Longitude);
+
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -242,22 +269,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             if(fechaini.before(fechafin)){
 
-
-
+            crearRuta(fechaini,fechafin);
 
 
             }else{
                 Toast.makeText(MapsActivity.this,"Inserte fechas coherentes",Toast.LENGTH_LONG);
             }
 
-
-
         } catch (ParseException e) {
             e.printStackTrace();
             Toast.makeText(MapsActivity.this,"Inserte fechas coherentes",Toast.LENGTH_LONG);
-
         }
+    }
+ArrayList<Position> subRuta = new ArrayList<>();
+    private void crearRuta(Date fechaini, Date fechafin) {
 
-
+        for (int i=0;i<rutas.size();i++){
+            if(rutas.get(i).RegisterDate.after(fechaini) && rutas.get(i).RegisterDate.before(fechafin)){
+                subRuta.add(rutas.get(i));
+            }
+        }
     }
 }
