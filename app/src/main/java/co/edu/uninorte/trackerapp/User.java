@@ -1,12 +1,15 @@
 package co.edu.uninorte.trackerapp;
 
+import android.os.Parcelable;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by fdjvf on 5/8/2017.
  */
 
-public class User {
+public class User implements Serializable {
     String UID;
 
     ArrayList<Position> Route;

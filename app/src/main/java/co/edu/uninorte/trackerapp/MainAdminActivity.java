@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.google.firebase.database.ChildEventListener;
@@ -19,15 +20,13 @@ public class MainAdminActivity extends AppCompatActivity {
     int ie = 1;
     ListAdapter ladapter;
     ArrayList<User> myUsers = new ArrayList<>();
-    private DatabaseReference mDatabase;
     private DatabaseReference UserCollection;
-
+    private String usuario="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_admin);
         l = (ListView) findViewById(R.id.listView);
-        mDatabase = FirebaseDatabase.getInstance().getReference();
         UserCollection = FirebaseDatabase.getInstance().getReference("Vendedores");
         ladapter = new ListAdapter(myUsers, this);
         UserCollection.addChildEventListener(new ChildEventListener() {
@@ -61,13 +60,17 @@ public class MainAdminActivity extends AppCompatActivity {
             }
         });
 
+        l.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                usuario=myUsers.get(position).getUID();
+                Intent i = new Intent(getApplicationContext(), MapsActivity.class);
+                i.putExtra("usuario",usuario);
+                startActivity(i);
 
-    }
-
-    public void onClickGOMAP(View view) {
-        Intent i = new Intent(this, MapsActivity.class);
-        startActivity(i);
+            }
+        });
     }
 
 
@@ -78,9 +81,6 @@ public class MainAdminActivity extends AppCompatActivity {
         }
         UserCollection.child("Nombre " + ie).setValue(new User("Nombre " + ie, temp));
         ie++;
-
-
-
      /*   AuthUI.getInstance()
                 .signOut(this)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
