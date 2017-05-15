@@ -1,4 +1,4 @@
-package co.edu.uninorte.trackerapp;
+package co.edu.uninorte.trackerapp.AdminApp;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,6 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import co.edu.uninorte.trackerapp.Model.User;
+import co.edu.uninorte.trackerapp.R;
 
 /**
  * Created by fdjvf on 5/14/2017.
@@ -54,7 +57,7 @@ public class ListAdapter extends BaseAdapter {
         }
 
         TextView nombre = (TextView) convertView.findViewById(R.id.NombreUsuario);
-        nombre.setText(text.getUID());
+        nombre.setText(text.Name);
 
         return convertView;
 

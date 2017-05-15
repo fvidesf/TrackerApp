@@ -1,4 +1,4 @@
-package co.edu.uninorte.trackerapp;
+package co.edu.uninorte.trackerapp.AdminApp;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +14,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+
+import co.edu.uninorte.trackerapp.Model.User;
+import co.edu.uninorte.trackerapp.R;
 
 public class MainAdminActivity extends AppCompatActivity {
     ListView l;
@@ -64,8 +67,8 @@ public class MainAdminActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                usuario=myUsers.get(position).getUID();
-                Intent i = new Intent(getApplicationContext(), MapsActivity.class);
+                usuario = myUsers.get(position).Name;
+                Intent i = new Intent(getApplicationContext(), co.edu.uninorte.trackerapp.MapsActivity.class);
                 i.putExtra("usuario",usuario);
                 startActivity(i);
 
@@ -75,12 +78,13 @@ public class MainAdminActivity extends AppCompatActivity {
 
 
     public void LogOut(View view) {
-        ArrayList<Position> temp = new ArrayList<>();
+ /*       ArrayList<Position> temp = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             temp.add(new Position(2D, 2D));
         }
-        UserCollection.child("Nombre " + ie).setValue(new User("Nombre " + ie, temp));
-        ie++;
+        UserCollection.child("Nombre " + ie).setValue(new User("Nombre " + ie, new Uri("ddsd") {
+        }));
+        ie++;*/
      /*   AuthUI.getInstance()
                 .signOut(this)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
