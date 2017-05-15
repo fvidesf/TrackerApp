@@ -47,12 +47,16 @@ public class MainActivity extends AppCompatActivity {
 
         if (UID.equals(ADMIN_MELANIS) || UID.equals(ADMIN_FABIO)) {
             Log.d("Adming Log", "Inicio sesion admin");
+            Intent myIntent = new Intent(this, MainAdminActivity.class);
+            startActivity(myIntent);
             //Iniciar Intent de Administrador
         } else {
             //Iniciar Intent de Vendedor
             Intent myIntent = new Intent(this, BeginTrackingActivity.class);
             startActivity(myIntent);
         }
+        finish();
+
     }
 
     @Override

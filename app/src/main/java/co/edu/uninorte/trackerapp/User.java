@@ -8,11 +8,13 @@ import java.util.ArrayList;
 
 public class User {
     String UID;
+
     ArrayList<Position> Route;
 
     public User(String name, ArrayList<Position> route) {
         UID = name;
         Route = route;
+
     }
 
     public User() {
