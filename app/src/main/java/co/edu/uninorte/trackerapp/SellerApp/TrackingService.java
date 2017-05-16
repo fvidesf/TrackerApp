@@ -11,10 +11,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.google.android.gms.location.LocationListener;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import co.edu.uninorte.trackerapp.Model.Position;
 import co.edu.uninorte.trackerapp.R;
@@ -25,8 +22,9 @@ import co.edu.uninorte.trackerapp.R;
 
 public class TrackingService extends Service implements LocationListener {
 
-    FirebaseUser currentUser;
+
     DatabaseReference Vendedores;
+    String ID = "";
     private NotificationManager mNM;
 
     @Nullable
@@ -43,8 +41,7 @@ public class TrackingService extends Service implements LocationListener {
         App.getGoogleApiHelper().addLocationLisetener(this);
         Log.d("a", "Mostrar notificacion");
         showNotification();
-        currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        Vendedores = FirebaseDatabase.getInstance().getReference("Vendedores");
+        Vendedores = App.getSellers();
     }
 
 
@@ -68,9 +65,16 @@ public class TrackingService extends Service implements LocationListener {
     }
 
     @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        ID = intent.getStringExtra("ID");
+        return START_STICKY;
+    }
+
+    @Override
     public void onLocationChanged(Location location) {
-        Vendedores.child(currentUser.getUid()).child("Route").push().
-                setValue(new Position(location.getLatitude(), location.getLongitude()));
+
+        Vendedores.child(ID).child("Route").push().
+                setValue(new Position(Double.toString(location.getLatitude()), Double.toString(location.getLongitude())));
         //OnLocationChangeddd
 
     }

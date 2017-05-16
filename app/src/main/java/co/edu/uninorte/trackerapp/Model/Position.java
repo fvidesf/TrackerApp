@@ -10,16 +10,17 @@ import java.util.Date;
 @IgnoreExtraProperties
 public class Position {
 
-    public Double Latitude;
-    public Double Longitude;
+    public String Latitude;
+    public String Longitude;
     public Date RegisterDate;
+
 
     public Position() {
 
 
     }
 
-    public Position(Double Latitude, Double Longitude) {
+    public Position(String Latitude, String Longitude) {
         this.Latitude = Latitude;
         this.Longitude = Longitude;
         this.RegisterDate = new Date();

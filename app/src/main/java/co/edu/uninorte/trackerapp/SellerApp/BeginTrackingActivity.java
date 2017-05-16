@@ -6,12 +6,17 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
@@ -25,7 +30,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import co.edu.uninorte.trackerapp.MainActivity;
 import co.edu.uninorte.trackerapp.Model.User;
@@ -41,6 +47,7 @@ public class BeginTrackingActivity extends AppCompatActivity {
     protected static final String TAG = "TrackingActivity";
     protected Status status;
     DatabaseReference Vendedores;
+    String ID;
     private User myUser;
 
     @Override
@@ -49,10 +56,28 @@ public class BeginTrackingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         BeginTrackingBinding beginTrackingBinding = DataBindingUtil.setContentView(this, R.layout.activity_begin_tracking);
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        Vendedores = FirebaseDatabase.getInstance().getReference("Vendedores");
-        myUser = new User(currentUser.getDisplayName(), currentUser.getPhotoUrl());
-        Vendedores.child(currentUser.getUid()).setValue(myUser);
-        beginTrackingBinding.UserName.setText(myUser.Name);
+        Vendedores = App.getSellers();
+        myUser = new User(currentUser.getDisplayName(), currentUser.getPhotoUrl().toString(), currentUser.getUid());
+        Vendedores.child(myUser.UID).setValue(myUser);
+        final ImageView admin = beginTrackingBinding.imageView2;
+        beginTrackingBinding.NameUser.setText(myUser.Name.toUpperCase());
+        Picasso.with(this).load(currentUser.getPhotoUrl()).placeholder(R.drawable.com_facebook_auth_dialog_background).into(admin, new Callback() {
+            @Override
+            public void onSuccess() {
+                Bitmap imageBitmap = ((BitmapDrawable) admin.getDrawable()).getBitmap();
+                RoundedBitmapDrawable imageDrawable = RoundedBitmapDrawableFactory.create(getResources(), imageBitmap);
+                imageDrawable.setCircular(true);
+                imageDrawable.setCornerRadius(Math.max(imageBitmap.getWidth(), imageBitmap.getHeight()) / 2.0f);
+                admin.setImageDrawable(imageDrawable);
+            }
+
+            @Override
+            public void onError() {
+                admin.setImageResource(R.drawable.com_facebook_button_background);
+
+
+            }
+        });
     }
 
     /**
@@ -90,6 +115,7 @@ public class BeginTrackingActivity extends AppCompatActivity {
     public void ServiceTracking() {
         App.getGoogleApiHelper().locationServicesHelper.startLocationUpdates(App.getGoogleApiHelper().mGoogleApiClient);
         Intent service = new Intent(this, TrackingService.class);
+        service.putExtra("ID", myUser.UID);
         startService(service);
         Toast.makeText(this, "Proceso de Tracking ha comenzado", Toast.LENGTH_LONG).show();
 

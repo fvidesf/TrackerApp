@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int RC_SIGN_IN = 123;
     private static final String ADMIN_MELANIS = "YQgiBDUx7qOFJHWkmR5WcvnT1s03";
-    private static final String ADMIN_FABIO = "9snCyhJbWuhv7dlw9C4hhuwj2XE2";
+    private static final String ADMIN_FABIO = "b2JACYw7QLUvDAhFj6K8zrHGeLa2";
     FirebaseAuth auth;
 
     @Override
@@ -34,8 +34,7 @@ public class MainActivity extends AppCompatActivity {
             startActivityForResult(
                     AuthUI.getInstance()
                             .createSignInIntentBuilder().
-                            setProviders(Arrays.asList(new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build(),
-                                    new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build()))
+                            setProviders(Arrays.asList(new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build()))
                             .setTheme(R.style.GreenTheme)
                             .build(), RC_SIGN_IN);
         }

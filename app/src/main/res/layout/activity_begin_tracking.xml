@@ -13,13 +13,16 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/UserName"
-            android:layout_width="348dp"
-            android:layout_height="50dp"
+            android:id="@+id/textView234"
+            android:layout_width="351dp"
+            android:layout_height="29dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:layout_marginTop="44dp"
-            android:text="Bienvenido a Melanioso Tracking: Usuario"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:text="Bienvenido a Melanioso Tracking"
+            android:textAlignment="center"
             android:textColor="@color/colorPrimary"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -27,28 +30,65 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/BeginTrack"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <TextView
+            android:id="@+id/NameUser"
+            android:layout_width="351dp"
+            android:layout_height="29dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:layout_marginTop="71dp"
-            android:onClick="BeginLocationTrackingOnClick"
-            android:text="Comenzar Tracking"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="57dp"
+            android:text="Nombre de Usuario"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintHorizontal_bias="0.529"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/UserName" />
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="64dp"
+            android:layout_height="52dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+
+            android:layout_marginTop="30dp"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintLeft_toLeftOf="@+id/NameUser"
+            app:layout_constraintRight_toRightOf="@+id/NameUser"
+            app:layout_constraintTop_toBottomOf="@+id/NameUser"
+            app:srcCompat="@drawable/com_facebook_button_background" />
+
+        <Button
+            android:id="@+id/BeginTrack"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="28dp"
+            android:onClick="BeginLocationTrackingOnClick"
+            android:text="Comenzar Tracking"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
         <Button
             android:id="@+id/EndTrack"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="46dp"
             android:onClick="EndLocationTrackingOnClick"
-
             android:text="Finalizar Tracking"
             app:layout_constraintHorizontal_bias="0.502"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -57,11 +97,13 @@
 
         <Button
             android:id="@+id/button5"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:onClick="LogOut"
             android:text="Salir de la Sesion"
